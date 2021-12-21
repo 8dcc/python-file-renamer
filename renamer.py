@@ -1,4 +1,4 @@
-import os, string
+import os, string, re
 
 #################################
 path = "test/"                  # Will search in ./test/
@@ -22,8 +22,14 @@ def main():
     file_count = 0
 
     for filename in os.listdir(path):
-        filename_new = renamed(file_count, filename)
-        file_count += 1
+        if re.match("^\[\d{4}\] ", filename):
+            filename_old = filename[7:]
+        else:
+            filename_old = filename
+
+        filename_new = renamed(file_count, filename_old)
         os.rename(path+filename, path+filename_new)
+
+        file_count += 1
 
 main()
